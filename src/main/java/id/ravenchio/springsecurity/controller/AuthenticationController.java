@@ -4,23 +4,22 @@ import id.ravenchio.springsecurity.dto.LoginRequest;
 import id.ravenchio.springsecurity.dto.LoginResponse;
 import id.ravenchio.springsecurity.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-  private final AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
-  @PostMapping("/login")
-  public ResponseEntity<LoginResponse<String>> login(@RequestBody LoginRequest request) {
-    String token = authenticationService.login(request);
-    return ResponseEntity
-        .ok()
-        .body(new LoginResponse<String>("Success", token));
-  }
+    @PostMapping(path = "/login")
+    public LoginResponse<String> login(@RequestBody LoginRequest request) {
+        String token = authenticationService.login(request);
 
+        return new LoginResponse<>("Success", token);
+    }
 }
